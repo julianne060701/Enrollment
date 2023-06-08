@@ -204,7 +204,7 @@ logout</span>Logout</a>
         </div>
         <div class="col-sm-6 p-0 d-flex justify-content-lg-end justify-content-center">
           <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">
-		  <i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
+		  <i class="material-icons">&#xE147;</i> <span>Add New </span></a>
 
         </div>
       </div>
