@@ -1,3 +1,13 @@
+<?php
+include 'dbcon.php';
+
+$sql = "SELECT tbl_userinfo.user_id, tbl_userinfo.firstname, tbl_userinfo.lastname, tbl_userinfo.grade, tbl_userinfo.strand, tbl_userinfo.lrn, tbl_user_level.level
+FROM tbl_userinfo
+JOIN tbl_user_level ON tbl_user_level.user_level_id = tbl_userinfo.user_id
+WHERE tbl_user_level.level = 'STUDENT' AND tbl_userinfo.strand = 'ABM'";
+
+$result = mysqli_query($conn, $sql);
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -351,13 +361,13 @@ logout</span>Logout</a>
     <div class="modal-content">
       <form>
         <div class="modal-header">
-          <h4 class="modal-title">Add Employee</h4>
+          <h4 class="modal-title">Add Student</h4>
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label>Name</label>
-            <input type="text" class="form-control" required>
+            <label>Full Name</label>
+            <input type="text" class="form-control" name="name">
           </div>
           <div class="form-group">
             <label>Email</label>
@@ -386,7 +396,7 @@ logout</span>Logout</a>
     <div class="modal-content">
       <form>
         <div class="modal-header">
-          <h4 class="modal-title">Edit Employee</h4>
+          <h4 class="modal-title">Add Student</h4>
           <button type="button" class="close" data-dismiss="modal" 
 		  aria-hidden="true">&times;</button>
         </div>

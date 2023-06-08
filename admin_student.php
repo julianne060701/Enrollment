@@ -1,3 +1,13 @@
+<?php
+include 'dbcon.php';
+$sql = "SELECT tbl_userinfo.user_id, tbl_userinfo.firstname, tbl_userinfo.lastname, tbl_userinfo.grade, tbl_userinfo.strand, tbl_userinfo.lrn, tbl_user_level.level
+FROM tbl_userinfo
+JOIN tbl_user_level ON tbl_user_level.user_level_id = tbl_userinfo.user_id
+WHERE tbl_user_level.level = 'STUDENT'";
+
+$result = mysqli_query($conn, $sql);
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -231,110 +241,27 @@ logout</span>Logout</a>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>
-            <span class="custom-checkbox">
-			<input type="checkbox" id="checkbox1" name="options[]" value="1">
-			<label for="checkbox1"></label>
-							</span>
-          </td>
-          <td>Thomas Sue</td>
-          <td>12</td>
-          <td>STEM</td>
-          <td>128503070025</td>
-          <td>
-            <a href="#editEmployeeModal" class="edit" data-toggle="modal">
-			<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-      <a href="#viewEmployeeModal" class="view" data-toggle="modal">
-        <i class="material-icons" data-toggle="tooltip" title="View">&#xE8F4;</i>
-    </a>
-    
-          </td>
+      <tr>
+          <?php
+            while($row = mysqli_fetch_assoc($result))
+              {
+                ?>
+                <td><?php echo $row['user_id'] ?></td>
+                <td><?php echo $row['firstname'] . ' ' . $row['lastname']; ?></td>
+                <td><?php echo $row['grade']; ?></td>
+                <td><?php echo $row['strand']; ?></td>
+                <td><?php echo $row['lrn'] ?></td>
+                <td>
+                <a href="#editEmployeeModal" class="edit" data-toggle="modal">
+                <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                <a href="#viewEmployeeModal" class="view" data-toggle="modal">
+                <i class="material-icons" data-toggle="tooltip" title="View">&#xE8F4;</i>
+                </a>
+                </td>
         </tr>
-        <tr>
-          <td>
-            <span class="custom-checkbox">
-								<input type="checkbox" id="checkbox2" 
-								name="options[]" value="1">
-								<label for="checkbox2"></label>
-							</span>
-          </td>
-          <td>Mang Juan</td>
-          <td>12</td>
-          <td>FBS</td>
-          <td>128508070025</td>
-          <td>
-            <a href="#editEmployeeModal" class="edit" data-toggle="modal">
-			<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
-        <i class="material-icons" data-toggle="tooltip" title="View">&#xE8F4;</i>
-    </a>
-    
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span class="custom-checkbox">
-								<input type="checkbox" id="checkbox3"
-								name="options[]" value="1">
-								<label for="checkbox3"></label>
-							</span>
-          </td>
-          <td>Justine Lopez</td>
-          <td>11</td>
-          <td>SMAW</td>
-          <td>128503070025</td>
-          <td>
-            <a href="#editEmployeeModal" class="edit" data-toggle="modal">
-			<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
-        <i class="material-icons" data-toggle="tooltip" title="View">&#xE8F4;</i>
-    </a>
-    
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span class="custom-checkbox">
-								<input type="checkbox" id="checkbox4" 
-								name="options[]" value="1">
-								<label for="checkbox4"></label>
-							</span>
-          </td>
-          <td>Jhonel Kim</td>
-          <td>11</td>
-          <td>ABM</td>
-          <td>128503070025</td>
-          <td>
-            <a href="#editEmployeeModal" class="edit" data-toggle="modal">
-			<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
-        <i class="material-icons" data-toggle="tooltip" title="View">&#xE8F4;</i>
-    </a>
-    
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span class="custom-checkbox">
-								<input type="checkbox" id="checkbox5" 
-								name="options[]" value="1">
-								<label for="checkbox5"></label>
-							</span>
-          </td>
-          <td>Jisoo Park</td>
-          <td>12</td>
-          <td>HUMMS</td>
-          <td>128503070025</td>
-          <td>
-            <a href="#editEmployeeModal" class="edit" data-toggle="modal">
-			<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
-        <i class="material-icons" data-toggle="tooltip" title="View">&#xE8F4;</i>
-    </a>
-    
-          </td>
-        </tr>
+            <?php
+                }
+                  ?>  
       </tbody>
     </table>
     <div class="clearfix">
@@ -352,7 +279,52 @@ logout</span>Logout</a>
   </div>
 </div>
 
+
 <!-- Modal -->
+<?php 
+include 'dbcon.php';
+if(isset($_POST['btnAdd'])){
+
+  $firstname = $_POST['firstname'];
+  $lastname = $_POST['lastname'];
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  $cfpassword =$_POST['password'];
+  $encrypted = password_hash($password, PASSWORD_DEFAULT);
+  $contact = $_POST['contact'];
+  $gender = $_POST['gender'];
+  $birthday = $_POST['birthday'];
+  $age = $_POST['age'];
+  $grade = $_POST['grade'];
+  $strand = $_POST['strand'];
+  $lrn = $_POST['lrn'];
+  $street = $_POST['street'];
+  $barangay = $_POST['barangay'];
+  $city = $_POST['city'];
+
+  $sql = "INSERT INTO tbl_userinfo (firstname, lastname, gender, birthday, age, grade, strand, lrn) VALUES ('$firstname', '$lastname', '$gender', '$birthday', '$age', '$grade', '$strand', '$lrn')";
+
+  if($conn->query($sql) === TRUE){
+    $userinfo_id = $conn->insert_id;
+    $sql = "INSERT INTO tbl_usercredentials (userinfo_id, username, password) VALUES ('$userinfo_id', '$username', '$encrypted')";
+
+    if($conn->query($sql) === TRUE){
+      $sql = "INSERT INTO tbl_contactinfo (userinfo_id, contact_num, city, barangay, street) VALUES ('$userinfo_id', '$contact', '$city', '$barangay', '$street')";
+
+      if($conn->query($sql) === TRUE){
+        $sql = "INSERT INTO tbl_user_level (userinfo_id, level) VALUES ('$userinfo_id', 'STUDENT')";
+
+        if($conn->query($sql) === TRUE){
+          $sql = "INSERT INTO tbl_user_status (userinfo_id, status) VALUES ('$userinfo_id', 1)";
+
+          $conn->query($sql) === TRUE;
+        }
+      }
+    }
+  }
+}
+?>
+
 <div id="addEmployeeModal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -364,7 +336,7 @@ logout</span>Logout</a>
         <div class="modal-body">
           <div class="error" id="error" style="display: none;"></div>
           <div>
-          <label style="margin-bottom: 20px;">User Credentials</label>
+          <label style="margin-bottom: 20px;">Personal Information</label>
           </div>
           <div class="row">
             <div class="col-6">
@@ -399,8 +371,14 @@ logout</span>Logout</a>
             </div>
             <div class="col-6">
               <div class="mb-3">
-                <label class="form-label">Birthday</label>
-                <input type="date" class="form-control" name="birthday" id="birthday">
+                <label class="form-label">Contact Number</label>
+                <input type="text" class="form-control" name="contact" id="contact">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label class="form-label">Age</label>
+                <input type="number" class="form-control" name="age" id="age">
               </div>
             </div>
             <div class="col-6">
@@ -415,15 +393,15 @@ logout</span>Logout</a>
             </div>
             </div>
             <div class="col-6">
-              <div class="mb-3">
-                <label class="form-label">Age</label>
-                <input type="number" class="form-control" name="age" id="age">
+                <div class="mb-3">
+                  <label class="form-label">Birthday</label>
+                  <input type="date" class="form-control" name="birthday" id="birthday">
+                </div>
               </div>
-            </div>
             <div class="col-6">
               <div class="mb-3">
                 <label class="form-label">Grade</label>
-                <select class="form-select" name="gender">
+                <select class="form-select" name="grade">
                 <option value="" disabled selected>Select Grade</option>
                 <option value="grade11">Grade 11</option>
                 <option value="grade12">Grade 12</option>
@@ -434,7 +412,7 @@ logout</span>Logout</a>
               <div class="col-6">
                 <div class="mb-3">
                   <label class="form-label">Strand/Program</label>
-                  <select class="form-select" name="gender">
+                  <select class="form-select" name="strand">
                   <option value="" disabled selected>Select Strand</option>
                   <option value="abm">ABM</option>
                   <option value="stem">STEM</option>
